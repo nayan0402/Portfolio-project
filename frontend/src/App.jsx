@@ -1,12 +1,13 @@
+import {NB} from './components';
 
-const App=()=>{
+const App = () =>{
   return(
-    <div className="App">
-      <h1 className="text-3xl front-bold underline">
-        Hello world!
-      </h1>
+    <div className="min-h-screen">
+      <div className="gradient-bg-welcome">
+        <NB />
+      </div>
     </div>
   )
 }
 
-export default App
+export default App;
