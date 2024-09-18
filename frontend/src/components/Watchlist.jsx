@@ -1,20 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-// Function to fetch token prices from CoinGecko with rate limit handling
-const fetchTokenPrice = async (tokenId) => {
+// Function to fetch token details without graph data
+const fetchTokenDetails = async (tokenId) => {
   try {
-    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
+    const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${tokenId}`);
     const data = await response.json();
 
-    // Check if CoinGecko has returned a valid response or if we've been throttled
+    // Check if CoinGecko has returned a valid response
     if (response.status === 429) {
       console.warn('Rate limit exceeded, throttling requests.');
       return 'Rate Limited, Try Later';
     }
 
-    return data[tokenId]?.usd || 'Price not available';
+    const tokenData = data[0] || {};
+
+    return {
+      price: tokenData.current_price || 'Price not available',
+      change1d: tokenData.price_change_percentage_24h || '--',
+      change7d: tokenData.price_change_percentage_7d || '--',
+      volume: tokenData.total_volume || '--',
+      image: tokenData.image, // Image URL of the token
+    };
   } catch (error) {
-    console.error('Error fetching token price:', error);
+    console.error('Error fetching token details:', error);
     return 'Error';
   }
 };
@@ -25,7 +33,6 @@ const fetchTokenSuggestions = async (query) => {
   try {
     const response = await fetch(`https://api.coingecko.com/api/v3/search?query=${query}`);
     const data = await response.json();
-    // Filter suggestions based on the query and limit to 5 results
     const filteredSuggestions = data.coins.filter(coin =>
       coin.name.toLowerCase().includes(query.toLowerCase())
     ).slice(0, 5);
@@ -43,8 +50,8 @@ const Watchlist = () => {
 
   // Function to handle adding token to the watchlist
   const handleAddToken = async (token) => {
-    const price = await fetchTokenPrice(token.id);
-    setWatchlist([...watchlist, { name: token.name, price, id: token.id, symbol: token.symbol, market_cap: token.market_cap, volume: token.volume }]);
+    const details = await fetchTokenDetails(token.id);
+    setWatchlist([...watchlist, { ...details, name: token.name, id: token.id, symbol: token.symbol }]);
     setTokenInput(''); // Clear input after adding
     setSuggestions([]); // Clear suggestions after adding
   };
@@ -56,8 +63,7 @@ const Watchlist = () => {
 
     if (value) {
       const tokenSuggestions = await fetchTokenSuggestions(value);
-      // Only include tokens whose names contain the query string
-      const filteredSuggestions = tokenSuggestions.filter(token => 
+      const filteredSuggestions = tokenSuggestions.filter(token =>
         token.name.toLowerCase().includes(value.toLowerCase())
       );
       setSuggestions(filteredSuggestions);
@@ -75,9 +81,7 @@ const Watchlist = () => {
   return (
     <div className="flex w-full justify-center items-center">
       <div className="flex flex-col md:flex-row items-start justify-between md:p-20 py-12 px-4 w-full">
-        {/* Left section with text */}
         <div className="flex flex-1 justify-start items-start flex-col md:mr-10">
-          {/* Heading */}
           <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1 mb-6">
             Watchlist
           </h1>
@@ -91,8 +95,6 @@ const Watchlist = () => {
               className="w-full px-3 py-3 rounded-md bg-gray-800 text-white border border-gray-700"
               placeholder="Enter token name (e.g., bitcoin)"
             />
-
-            {/* Display suggestions */}
             {suggestions.length > 0 && (
               <ul className="absolute top-full bg-gray-800 text-white rounded-md shadow-md mt-2 w-full max-w-lg z-10">
                 {suggestions.map((token) => (
@@ -108,28 +110,51 @@ const Watchlist = () => {
             )}
           </div>
 
-          {/* Display the watchlist */}
-          <ul className="w-full bg-gray-800 p-4 rounded-md shadow-md">
-            {watchlist.map((token, index) => (
-              <li key={index} className="flex flex-col bg-gray-700 p-4 rounded-md mb-4">
-                <div className="flex justify-between text-white mb-2">
-                  <span>
-                    {token.name ? token.name.toUpperCase() : 'Unknown'} ({token.symbol ? token.symbol.toUpperCase() : 'N/A'}): ${token.price}
-                  </span>
-                  <button
-                    onClick={() => handleRemoveToken(token.id)}
-                    className="text-red-500 hover:underline"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <div className="text-gray-400">
-                  <p>Market Cap: ${token.market_cap || 'N/A'}</p>
-                  <p>Volume (24h): ${token.volume || 'N/A'}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          {/* Display the watchlist or message when empty */}
+          <div className="w-full">
+            {watchlist.length === 0 ? (
+              <div className="flex justify-center items-center h-20">
+                <h2 className="text-2xl sm:text-3xl text-white text-gradient py-1 mb-6">
+                  Watchlist is empty! Please add tokens
+                </h2>
+              </div>
+            ) : (
+              <table className="min-w-full bg-gray-800 text-white rounded-md shadow-md">
+                <thead>
+                  <tr className="text-left">
+                    <th className="p-4">Token</th>
+                    <th className="p-4">Price</th>
+                    <th className="p-4">1d %</th>
+                    <th className="p-4">7d %</th>
+                    <th className="p-4">Volume (24h)</th>
+                    <th className="p-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {watchlist.map((token, index) => (
+                    <tr key={index} className="bg-gray-700 hover:bg-gray-600">
+                      <td className="p-4 flex items-center">
+                        <img src={token.image} alt={token.symbol} className="w-6 h-6 mr-2" />
+                        <span>{token.name} ({token.symbol.toUpperCase()})</span>
+                      </td>
+                      <td className="p-4">${token.price}</td>
+                      <td className="p-4">{token.change1d}%</td>
+                      <td className="p-4">{token.change7d}%</td>
+                      <td className="p-4">${token.volume}</td>
+                      <td className="p-4">
+                        <button
+                          onClick={() => handleRemoveToken(token.id)}
+                          className="text-red-500 hover:underline"
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       </div>
     </div>
