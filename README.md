@@ -52,3 +52,7 @@ Krypt offers a range of functionalities to enhance your cryptocurrency portfolio
 - **Secure Transactions**: Benefit from secure interactions with the Ethereum blockchain, ensuring your transactions are safe and reliable.
 
 With these features, Krypt aims to provide a comprehensive and user-friendly experience for managing your cryptocurrency portfolio.
+
+## Live Demo
+Check out the live demo of the project [here](https://66ed8ee082cdde00cdf1ec25--jovial-nasturtium-c58669.netlify.app/).
+
