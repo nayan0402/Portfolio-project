@@ -1,18 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const etherscanUrl = "https://api-sepolia.etherscan.io/api";
-const apiKey = "MDQ6ZSC8Q6DT8C7CFGP7X74XZH7Z2NZ4AE"; // Replace with your Etherscan API key
+// Define available networks and their respective API URLs and keys
+const networks = {
+  sepolia: {
+    name: "Sepolia Testnet",
+    url: "https://api-sepolia.etherscan.io/api",
+    apiKey: "MDQ6ZSC8Q6DT8C7CFGP7X74XZH7Z2NZ4AE" // Replace with your Sepolia Etherscan API key
+  },
+  mainnet: {
+    name: "Ethereum Mainnet",
+    url: "https://api.etherscan.io/api",
+    apiKey: "MDQ6ZSC8Q6DT8C7CFGP7X74XZH7Z2NZ4AE" // Replace with your Mainnet Etherscan API key
+  },
+  rinkeby: {
+    name: "Rinkeby Testnet",
+    url: "https://api-rinkeby.etherscan.io/api",
+    apiKey: "MDQ6ZSC8Q6DT8C7CFGP7X74XZH7Z2NZ4AE" // Replace with your Rinkeby Etherscan API key
+  },
+  holesky: {
+    name: "Holesky Testnet",
+    url: "https://api-holesky.etherscan.io/api", // Replace with Holesky Etherscan-like API URL if available
+    apiKey: "MDQ6ZSC8Q6DT8C7CFGP7X74XZH7Z2NZ4AE" // Replace with your Holesky Etherscan-like API key
+  }
+};
 
 const TokenApprove = ({ walletAddress }) => {
   const [approvalTransactions, setApprovalTransactions] = useState([]);
+  const [selectedNetwork, setSelectedNetwork] = useState('sepolia');
 
   // Function to fetch approval transactions
   const fetchApprovalTransactions = async () => {
     if (!walletAddress) return; // If no wallet address, skip fetching
 
     try {
-      const response = await axios.get(etherscanUrl, {
+      const { url, apiKey } = networks[selectedNetwork];
+
+      const response = await axios.get(url, {
         params: {
           module: 'account',
           action: 'txlist',
@@ -47,14 +71,30 @@ const TokenApprove = ({ walletAddress }) => {
 
   useEffect(() => {
     fetchApprovalTransactions();
-  }, [walletAddress]);
+  }, [walletAddress, selectedNetwork]);
 
   return (
     <div className="flex flex-col md:flex-row items-start justify-between md:p-20 py-9 px-4 w-full">
       <div className="flex flex-1 justify-start items-start flex-col md:mr-10">
-      <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1 mb-6">
-            Approved Allowance Tokens
-          </h1>
+        <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1 mb-6">
+          Approved Allowance Tokens
+        </h1>
+
+        {/* Network Selection Dropdown */}
+        <div className="mb-4">
+          <label className="text-white text-lg">Select Network:</label>
+          <select
+            className="ml-2 bg-gray-800 text-white p-2 rounded-md"
+            value={selectedNetwork}
+            onChange={(e) => setSelectedNetwork(e.target.value)}
+          >
+            {Object.keys(networks).map((network) => (
+              <option key={network} value={network}>
+                {networks[network].name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {/* Display the approval transactions or message when empty */}
         <div className="w-full">
