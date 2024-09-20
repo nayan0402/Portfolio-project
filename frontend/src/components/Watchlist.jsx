@@ -13,6 +13,8 @@ const fetchTokenDetails = async (tokenId) => {
     }
 
     const tokenData = data[0] || {};
+    
+    console.log('Fetched Token Data:', tokenData); // Logging fetched data
 
     return {
       price: tokenData.current_price || 'Price not available',
@@ -48,15 +50,19 @@ const Watchlist = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
 
-  // Function to handle adding token to the watchlist
   const handleAddToken = async (token) => {
     const details = await fetchTokenDetails(token.id);
+
+    if (details === 'Error' || details === 'Rate Limited, Try Later') {
+      console.error('Failed to fetch token details');
+      return;
+    }
+
     setWatchlist([...watchlist, { ...details, name: token.name, id: token.id, symbol: token.symbol }]);
     setTokenInput(''); // Clear input after adding
     setSuggestions([]); // Clear suggestions after adding
   };
 
-  // Function to handle token input change and fetch suggestions
   const handleTokenInputChange = async (e) => {
     const value = e.target.value;
     setTokenInput(value);
@@ -72,7 +78,6 @@ const Watchlist = () => {
     }
   };
 
-  // Function to remove a token from the watchlist
   const handleRemoveToken = (tokenId) => {
     const updatedWatchlist = watchlist.filter((token) => token.id !== tokenId);
     setWatchlist(updatedWatchlist);
