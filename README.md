@@ -44,9 +44,10 @@ Krypt offers a range of functionalities to enhance your cryptocurrency portfolio
 - **Customizable Watchlist**: Create and manage a personalized watchlist to track your favorite tokens and monitor their performance.
 
 - **Token Allowance Management**: View and manage the allowances granted to various smart contracts for better control over your tokens.
+  
+- **Transaction History**: See the transaction history for your Wallet with all the important information listed.
 
 - **User-friendly Interface**: Enjoy a clean and intuitive interface designed for both beginners and experienced users.
-
 
 - **Secure Transactions**: Benefit from secure interactions with the Ethereum blockchain, ensuring your transactions are safe and reliable.
 
