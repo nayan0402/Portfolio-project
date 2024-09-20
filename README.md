@@ -3,10 +3,6 @@
 
 Krypt is a comprehensive crypto portfolio management application that allows users to monitor, manage, and transfer their cryptocurrency holdings seamlessly. With a user-friendly interface, Krypt enables users to connect their wallet, transfer tokens, create a customized watchlist, and view the different token allowances they have granted through various smart contracts.
 
-**Note**: Since this is a test app, it will only retrieve transaction information from the Sepolia Testnet network. However, it can be easily configured for the Ethereum mainnet.
-
-
-
 ## Installation
 
 To install and run Krypt, follow the given steps-
@@ -33,7 +29,7 @@ This will install all the dependencies.
 ```bash
 npm run dev 
 ```
-This will start the Vite development server, usually at http://localhost:3000.
+This will start the Vite development server, which will provide you with a link that you can follow to host the site locally.
   
 
 ## Features
@@ -48,7 +44,7 @@ Krypt offers a range of functionalities to enhance your cryptocurrency portfolio
 
 - **Token Allowance Management**: View and manage the allowances granted to various smart contracts for better control over your tokens.
   
-- **Transaction History**: See the transaction history for your Wallet with all the important information listed.
+- **Transaction History**: See the transaction history for your Wallet with all the important information listed. A limit to 10 transactions has been set.
 
 - **User-friendly Interface**: Enjoy a clean and intuitive interface designed for both beginners and experienced users.
 
@@ -57,5 +53,5 @@ Krypt offers a range of functionalities to enhance your cryptocurrency portfolio
 With these features, Krypt aims to provide a comprehensive and user-friendly experience for managing your cryptocurrency portfolio.
 
 ## Live Demo
-I deployed the website using Netlify. Check out the live demo of the project [here](https://66ed8ee082cdde00cdf1ec25--jovial-nasturtium-c58669.netlify.app/).
+I deployed the website using Netlify. Check out the live demo of the project [here](https://66edab7d22edb7280bad7bf7--superb-blini-4685c8.netlify.app/).
 
