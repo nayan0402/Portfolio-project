@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
-import { Loader, TokenApprove, Watchlist } from ".";
+import { Loader, TokenApprove, Watchlist , Transactions} from ".";
 import TokenTransferButton from "./TokenTransferButton";
 import Services from './Services';
 
@@ -116,7 +116,7 @@ const Welcome = () => {
         </div>
 
         <div className="flex flex-col flex-1 items-center justify-start w-full md:w-auto md:mt-0 mt-10">
-          <div className="p-3 flex justify-end items-start flex-col rounded-xl h-60 w-[23rem] w-full my-5 eth-card white-glassmorphism">
+        <div className="p-3 flex justify-end items-start flex-col rounded-xl h-60 w-[22rem] my-5 eth-card white-glassmorphism" style={{ maxWidth: '22rem' }}>
             <div className="flex justify-between flex-col w-full h-full">
               <div className="flex justify-between items-start">
                 <div className="w-10 h-10 rounded-full border-2 border-white flex justify-center items-center">
@@ -181,7 +181,8 @@ const Welcome = () => {
       </div>
       <Services />
       <Watchlist />
-      <TokenApprove walletAddress={currentAccount} /> {/* Pass the wallet address */}
+      <TokenApprove walletAddress={currentAccount} />
+      <Transactions walletAddress={currentAccount} />
     </div>
   );
 };
