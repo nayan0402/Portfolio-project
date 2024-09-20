@@ -3,6 +3,9 @@
 
 Krypt is a comprehensive crypto portfolio management application that allows users to monitor, manage, and transfer their cryptocurrency holdings seamlessly. With a user-friendly interface, Krypt enables users to connect their wallet, transfer tokens, create a customized watchlist, and view the different token allowances they have granted through various smart contracts.
 
+**Note**: Since this is a test app, it will only retrieve transaction information from the Sepolia Testnet network. However, it can be easily configured for the Ethereum mainnet.
+
+
 
 ## Installation
 
@@ -54,5 +57,5 @@ Krypt offers a range of functionalities to enhance your cryptocurrency portfolio
 With these features, Krypt aims to provide a comprehensive and user-friendly experience for managing your cryptocurrency portfolio.
 
 ## Live Demo
-Check out the live demo of the project [here](https://66ed8ee082cdde00cdf1ec25--jovial-nasturtium-c58669.netlify.app/).
+I deployed the website using Netlify. Check out the live demo of the project [here](https://66ed8ee082cdde00cdf1ec25--jovial-nasturtium-c58669.netlify.app/).
 
