@@ -2,6 +2,7 @@
 # Krypt - Crypto Portfolio Application
 
 Krypt is a comprehensive crypto portfolio management application that allows users to monitor, manage, and transfer their cryptocurrency holdings seamlessly. With a user-friendly interface, Krypt enables users to connect their wallet, transfer tokens, create a customized watchlist, and view the different token allowances they have granted through various smart contracts.
+![Alt text](website_screenshot.png)
 
 ## Installation
 
