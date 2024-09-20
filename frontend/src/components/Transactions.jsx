@@ -47,7 +47,7 @@ const Transactions = ({ walletAddress }) => {
           value: parseFloat(tx.value) / 1e18, // Convert Wei to ETH
           timeStamp: new Date(tx.timeStamp * 1000).toLocaleString(),
           isIncoming: tx.to.toLowerCase() === walletAddress.toLowerCase(),
-        }));
+        })).slice(0, 10); // Limit to the latest 10 transactions
 
         setTransactions(allTransactions);
       } else {
