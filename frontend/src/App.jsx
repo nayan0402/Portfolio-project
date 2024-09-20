@@ -1,4 +1,4 @@
-import {NB, Welcome, Watchlist, Services} from './components';
+import {NB, Welcome, Watchlist, Services, TokenApprove} from './components';
 
 const App = () =>{
   return(
@@ -8,6 +8,7 @@ const App = () =>{
         <Welcome />
         <Services />
         <Watchlist />
+        <TokenApprove />
       </div>
     </div>
   )

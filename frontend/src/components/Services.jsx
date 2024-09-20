@@ -19,7 +19,7 @@ const ServiceCard = ({ color, title, icon, subtitle }) => (
 );
 
 const Services = () => (
-  <div className="flex w-full justify-center items-center bg-gradient-to-r from-gray-800 via-gray-900 to-black">
+  <div className="flex w-full justify-center items-center">
     <div className="flex md:flex-row flex-col items-center justify-between md:p-20 py-12 px-4">
       {/* Title and Description on the left */}
       <div className="flex-1 flex flex-col justify-start items-start">
@@ -27,8 +27,8 @@ const Services = () => (
           Services we improve
         </h1>
         <p className="text-left my-2 text-white font-light md:w-9/12 w-11/12 text-base">
-        Krypt is the ultimate platform to effortlessly manage your unique crypto portfolio, 
-        offering a range of super-friendly services designed to enhance your investment experience. 
+          Krypt is the ultimate platform to effortlessly manage your unique crypto portfolio, 
+          offering a range of super-friendly services designed to enhance your investment experience. 
         </p>
       </div>
 
@@ -42,14 +42,14 @@ const Services = () => (
         />
         <ServiceCard
           color="bg-[#8945F8]"
-          title="Your Custon WatchList"
+          title="Your Custom WatchList"
           icon={<BiSearchAlt fontSize={21} className="text-white" />}
           subtitle="Create your very own Custom Watchlist for Different Tokens"
         />
         <ServiceCard
           color="bg-[#F84550]"
           title="Connect Wallet"
-          icon={<RiWallet2Fill  fontSize={21} className="text-white" />}
+          icon={<RiWallet2Fill fontSize={21} className="text-white" />}
           subtitle="Connect your Metamask Wallet with Crypt and explore more features."
         />
         <ServiceCard
