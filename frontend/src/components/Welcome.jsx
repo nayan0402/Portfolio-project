@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
-import { Loader } from ".";
+import { Loader, TokenApprove, Watchlist } from ".";
 import TokenTransferButton from "./TokenTransferButton";
+import Services from './Services';
 
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
@@ -35,13 +36,8 @@ const Welcome = () => {
 
   const connectWallet = async () => {
     try {
-      if (!window.ethereum)
-        return alert("Please install MetaMask to use this app.");
-
-      setCurrentAccount(null);
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts"
-      });
+      if (!window.ethereum) return alert("Please install MetaMask to use this app.");
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       setCurrentAccount(accounts[0]);
       console.log("Connected Account:", accounts[0]);
     } catch (error) {
@@ -56,12 +52,8 @@ const Welcome = () => {
 
   const checkIfWalletIsConnected = async () => {
     try {
-      if (!window.ethereum)
-        return alert("Please install MetaMask to use this app.");
-
-      const accounts = await window.ethereum.request({
-        method: "eth_accounts"
-      });
+      if (!window.ethereum) return alert("Please install MetaMask to use this app.");
+      const accounts = await window.ethereum.request({ method: "eth_accounts" });
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
         console.log("Wallet already connected:", accounts[0]);
@@ -76,7 +68,7 @@ const Welcome = () => {
   }, []);
 
   return (
-    <div className="flex w-full justify-center items-center">
+    <div className="flex flex-col w-full justify-center items-center">
       <div className="flex flex-col md:flex-row items-start justify-between md:p-20 py-12 px-4 w-full">
         <div className="flex flex-1 justify-start items-start flex-col md:mr-10">
           <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1">
@@ -89,7 +81,7 @@ const Welcome = () => {
             <button
               type="button"
               onClick={currentAccount ? disconnectWallet : connectWallet}
-              className="flex flex-row justify-center items-center my-5 bg-[#2952e3] px-10 py-3 w-[300px] rounded-full cursor-pointer hover:bg-[#2546bd]"
+              className="flex flex-row justify-center items-center my-5 bg-[#2952e3] px-10 py-3 w-[400px] rounded-full cursor-pointer hover:bg-[#2546bd]"
             >
               <p className="text-white text-base font-semibold">
                 {currentAccount ? "Wallet Connected" : "Connect Wallet"}
@@ -124,7 +116,7 @@ const Welcome = () => {
         </div>
 
         <div className="flex flex-col flex-1 items-center justify-start w-full md:w-auto md:mt-0 mt-10">
-          <div className="p-3 flex justify-end items-start flex-col rounded-xl h-60 w-[22rem] w-full my-5 eth-card white-glassmorphism">
+          <div className="p-3 flex justify-end items-start flex-col rounded-xl h-60 w-[23rem] w-full my-5 eth-card white-glassmorphism">
             <div className="flex justify-between flex-col w-full h-full">
               <div className="flex justify-between items-start">
                 <div className="w-10 h-10 rounded-full border-2 border-white flex justify-center items-center">
@@ -134,16 +126,13 @@ const Welcome = () => {
               </div>
               <div>
                 <p className="text-white font-light text-sm">
-                  {currentAccount
-                    ? currentAccount
-                    : "Connect your wallet to see address"}
+                  {currentAccount ? currentAccount : "Connect your wallet to see address"}
                 </p>
-                <p className="text-white font-semibold text-lg mt-1">
-                  Ethereum
-                </p>
+                <p className="text-white font-semibold text-lg mt-1">Ethereum</p>
               </div>
             </div>
           </div>
+
           <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
             <Input
               placeholder="Address To"
@@ -190,6 +179,9 @@ const Welcome = () => {
           </div>
         </div>
       </div>
+      <Services />
+      <Watchlist />
+      <TokenApprove walletAddress={currentAccount} /> {/* Pass the wallet address */}
     </div>
   );
 };

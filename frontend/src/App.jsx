@@ -1,4 +1,4 @@
-import {NB, Welcome, Watchlist, Services, TokenApprove} from './components';
+import {NB, Welcome} from './components';
 
 const App = () =>{
   return(
@@ -6,9 +6,6 @@ const App = () =>{
       <div className="gradient-bg-welcome">
         <NB />
         <Welcome />
-        <Services />
-        <Watchlist />
-        <TokenApprove />
       </div>
     </div>
   )
