@@ -56,7 +56,7 @@ const Services = () => (
           color="bg-[#F84550]"
           title="Transaction History"
           icon={<RiHeart2Fill fontSize={21} className="text-white" />}
-          subtitle="Check your Transaction History with ease/"
+          subtitle="Check your Transaction History with ease."
         />
       </div>
     </div>

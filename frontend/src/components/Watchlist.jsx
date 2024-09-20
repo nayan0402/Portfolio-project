@@ -4,30 +4,32 @@ import React, { useState } from 'react';
 const fetchTokenDetails = async (tokenId) => {
   try {
     const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${tokenId}`);
-    const data = await response.json();
-
-    // Check if CoinGecko has returned a valid response
-    if (response.status === 429) {
-      console.warn('Rate limit exceeded, throttling requests.');
-      return 'Rate Limited, Try Later';
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
     }
 
-    const tokenData = data[0] || {};
-    
-    console.log('Fetched Token Data:', tokenData); // Logging fetched data
+    const data = await response.json();
 
+    if (!data || data.length === 0) {
+      console.warn('No data found for the provided token ID.');
+      return 'Token not found';
+    }
+
+    const tokenData = data[0];
     return {
       price: tokenData.current_price || 'Price not available',
       change1d: tokenData.price_change_percentage_24h || '--',
       change7d: tokenData.price_change_percentage_7d || '--',
       volume: tokenData.total_volume || '--',
-      image: tokenData.image, // Image URL of the token
+      image: tokenData.image,
     };
   } catch (error) {
-    console.error('Error fetching token details:', error);
+    console.error('Error fetching token details:', error.message);
     return 'Error';
   }
 };
+
 
 // Function to fetch token suggestions from CoinGecko
 const fetchTokenSuggestions = async (query) => {

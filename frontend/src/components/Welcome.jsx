@@ -148,20 +148,6 @@ const Welcome = () => {
               value={formData.amount}
               handleChange={handleChange}
             />
-            <Input
-              placeholder="Keyword (Gif)"
-              name="keyword"
-              type="text"
-              value={formData.keyword}
-              handleChange={handleChange}
-            />
-            <Input
-              placeholder="Enter Message"
-              name="message"
-              type="text"
-              value={formData.message}
-              handleChange={handleChange}
-            />
 
             <div className="h-[1px] w-full bg-gray-400 my-2" />
 
